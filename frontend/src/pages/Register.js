@@ -14,7 +14,7 @@ export default function Register() {
 
   const handleRegister = async () => {
     try {
-      const response = await axios.post(API_URL, { name, email, password, role });
+      const response = await axios.post("http://localhost:5000/register", { name, email, password, role });
       toast.success(`User registered successfully! UserID: ${response.data.userid}`);
       navigate("/");
     } catch (error) {
