@@ -53,6 +53,14 @@ export default function Inventory() {
             ))}
           </tbody>
         </table>
+        <form>
+          <input type="text" id="itemid" name="itemid"/>
+          <input type="submit" value="Search"></input>
+        </form>
+        <form>
+          <input type="text" id="itemname" name="itemname"/>
+          <input type="submit" value="Search"></input>
+        </form>
       </div>
     </div>
   );

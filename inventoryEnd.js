@@ -31,4 +31,6 @@ async function fetchAndPopulateTable() {
     });
 }
 
+
+
 document.addEventListener('DOMContentLoaded', fetchAndPopulateTable);
