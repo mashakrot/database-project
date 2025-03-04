@@ -21,6 +21,19 @@ def connect_db():
         return None
 # connecting to the database END
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 # ADMIN PAGE - viewing, changing and deleting user info
 def get_user_info(userid):
     conn = connect_db()
