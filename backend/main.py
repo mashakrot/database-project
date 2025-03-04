@@ -65,17 +65,6 @@ class InventoryUpdate(BaseModel):
     item_id: int
     quantity: int
 
-def hash_password(password: str):
-    return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-
-def verify_password(password: str, hashed_password: str):
-    return bcrypt.checkpw(password.encode('utf-8'), hashed_password.encode('utf-8'))
-
-def create_access_token(data: dict, expires_delta: timedelta):
-    to_encode = data.copy()
-    expire = datetime.utcnow() + expires_delta
-    to_encode.update({"exp": expire})
-    return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 # TODO: check naming in database
 
@@ -85,23 +74,28 @@ def create_access_token(data: dict, expires_delta: timedelta):
 def register_user(user: UserCreate):
     conn = connect_db()
     cur = conn.cursor()
-    
+
     cur.execute("SELECT * FROM users WHERE email = %s", (user.email,))
     if cur.fetchone():
         raise HTTPException(status_code=400, detail="Email already registered")
-        
+
+    cur.execute("SELECT * FROM users WHERE telephonenumber = %s", (user.telephonenumber,))
+    if cur.fetchone():
+        raise HTTPException(status_code=400, detail="Phone number already registered")
+
     cur.execute("SELECT COALESCE(MAX(userid), 1000) + 1 FROM users")
     new_userid = cur.fetchone()[0]
 
-    
-    hashed_password = hash_password(user.password)
-    cur.execute("INSERT INTO users (userid, name, email, password, role) VALUES (%s, %s, %s, %s, %s)",
-                (new_userid, user.name, user.email, hashed_password, user.role))
+    cur.execute("""
+        INSERT INTO users (userid, name, email, password, telephonenumber, author) 
+        VALUES (%s, %s, %s, %s, %s, %s)
+    """, (new_userid, user.name, user.email, user.password, user.telephonenumber, user.author))
 
     conn.commit()
     conn.close()
-    
-    return {"message": "User registered successfully", "userid": user.userid}
+
+    return {"message": "User registered successfully", "userid": new_userid}
+
 
 
 # Authentication
@@ -109,16 +103,15 @@ def register_user(user: UserCreate):
 def login_user(user: LoginRequest):
     conn = connect_db()
     cur = conn.cursor()
-    
+
     cur.execute("SELECT user_id, name, role, password FROM users WHERE email = %s", (user.email,))
     db_user = cur.fetchone()
-    
-    if not db_user or not verify_password(user.password, db_user[3]):
+
+    if not db_user or db_user[3] != user.password:  # ⚠️ No hashing check
         raise HTTPException(status_code=401, detail="Invalid credentials")
-    
-    access_token = create_access_token({"sub": user.email}, timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES))
-    
-    return {"access_token": access_token, "token_type": "bearer", "user": {"id": db_user[0], "name": db_user[1], "role": db_user[2]}}
+
+    return {"message": "Login successful", "user": {"id": db_user[0], "name": db_user[1], "role": db_user[2]}}
+
 
 # Maybe use this and remove login, register to seperate file auth.py
 # app.include_router(auth_router)
