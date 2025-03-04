@@ -407,7 +407,7 @@ if __name__ == "__main__":
         # TEST RUNS
 
         # get_roles()
-        # get_inventory()
+        get_inventory()
         # get_users()
         # get_reservations()
         # get_suppliers()
