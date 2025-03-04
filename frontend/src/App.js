@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Reservations from "./pages/Reservations";
 import Inventory from "./pages/Inventory";
+import Register from "./pages/Register";
 import StaffSchedules from "./pages/StaffSchedules";
 
 export default function App() {
@@ -13,7 +14,10 @@ export default function App() {
     <Router>
       <Routes>
         <Route path="/" element={!user ? <Login setUser={setUser} /> : <Navigate to="/dashboard" />} />
-        <Route path="/dashboard" element={user ? <Dashboard user={user} /> : <Navigate to="/" />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/login" element={<Login />} />
+        {/* <Route path="/dashboard" element={user ? <Dashboard user={user} /> : <Navigate to="/" />} /> */}
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/reservations" element={<Reservations />} />
         <Route path="/inventory" element={<Inventory />} />
         <Route path="/schedules" element={<StaffSchedules />} />

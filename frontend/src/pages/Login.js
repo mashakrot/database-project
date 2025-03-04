@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
+
 
 const API_URL = "http://localhost:5000";
 
@@ -12,22 +15,13 @@ export default function Login({ setUser }) {
   const login = async () => {
     setError(null);
     try {
-      const response = await fetch(`${API_URL}/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password })
-      });
-
-      const data = await response.json();
-
-      if (response.ok) {
-        setUser(data.user);
-        navigate("/dashboard");
-      } else {
-        setError(data.message || "Invalid credentials");
-      }
-    } catch (err) {
-      setError("Server error, please try again later.");
+      const response = await axios.post("http://localhost:5000/login", { email, password });
+      localStorage.setItem("token", response.data.access_token);
+      setUser(response.data.user);
+      navigate("/dashboard");
+      toast.success("Login successful!");
+    } catch (error) {
+      toast.error("Invalid credentials!");
     }
   };
 
@@ -56,6 +50,7 @@ export default function Login({ setUser }) {
         >
           Login
         </button>
+        <p className="text-sm mt-3">Don't have an account? <Link to="/register" className="text-blue-500">Register here</Link></p>
       </div>
     </div>
   );
