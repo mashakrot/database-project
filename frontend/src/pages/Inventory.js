@@ -112,7 +112,7 @@ export default function Inventory() {
     <div className="flex inventory-container">
       <Sidebar />
       <div className="flex-1 ml-60 p-5">
-        <div className="p-6 w-full">
+        <div className="po-6 w-full">
           <h1 className="text-2xl font-bold">Inventory Management</h1>
           <h2 className="font-bold mb-3">Update Inventory</h2>
           <div className="update-container">
