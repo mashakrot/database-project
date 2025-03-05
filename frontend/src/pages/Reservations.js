@@ -61,6 +61,7 @@ export default function Reservations() {
   return (
     <div className="flex">
       <Sidebar />
+      <div className="flex-1 ml-60 p-5">
       <div className="p-6 w-full">
         <h1 className="text-2xl font-bold">Reservations</h1>
         <form id="searchResForm">
@@ -124,5 +125,6 @@ export default function Reservations() {
           </form>
         </div>
       </div>
+    </div>
   );
 }
