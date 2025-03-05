@@ -123,8 +123,16 @@ def update_inventory():
         cur.execute("UPDATE inventory SET quantity = %s WHERE itemname = %s", (new_quantity, item_name))
     else:
         # If the item doesn't exist, insert a new record
-        cur.execute("INSERT INTO inventory (itemname, quantity) VALUES (%s, %s)", 
-                    (item_name, ordered_quantity))
+        cur.execute("SELECT COALESCE(MAX(itemid), 0) FROM inventory;")
+        max_itemid = cur.fetchone()[0]  # Get the highest item ID
+
+        new_itemid = max_itemid + 1  # Increment the item ID
+
+        # Insert new item with supplier as NULL and reorder level as 0
+        cur.execute("""
+            INSERT INTO inventory (itemid, itemname, quantity, supplierid, reorderlevel)
+            VALUES (%s, %s, %s, NULL, 0);
+        """, (new_itemid, item_name, ordered_quantity))
 
     conn.commit()
 

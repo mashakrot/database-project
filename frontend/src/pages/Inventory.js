@@ -116,11 +116,11 @@ export default function Inventory() {
       <div className="p-6 w-full">
         <h1 className="text-2xl font-bold">Inventory Management</h1>
         <div>
-          <label htmlFor="itemname">Item Name:</label>
+          <label htmlFor="itemname1">Item Name:</label>
           <input
             type="text"
-            id="itemname"
-            name="itemname"
+            id="itemname1"
+            name="itemname1"
             placeholder="Enter item name to update"
             value={searchValue}  // bind it to searchValue to store the entered item name
             onChange={(e) => setSearchValue(e.target.value)} // Update searchValue when user types
@@ -147,8 +147,8 @@ export default function Inventory() {
               <th>Item ID</th>
               <th>Name</th>
               <th>Quantity</th>
-              <th>Category</th> {/* Renamed this for clarity */}
-              <th>Price</th>
+              <th>Supplier ID</th> {/* Renamed this for clarity */}
+              <th>Reorder Level</th>
             </tr>
           </thead>
           <tbody>
