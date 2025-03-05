@@ -9,13 +9,13 @@ async function fetchAndPopulateTable() {
 
                 // Loop through each inventory item and create a row
                 inventory.forEach(item => {
-                    // Assuming item is a tuple or array like [id, name, description, quantity, price]
+                    // Assuming item is a tuple or array like [id, name, description, quantity, reorderlevel]
                     let row = "<tr>";
                     row += `<td>${item[0]}</td>`;  // Item ID
                     row += `<td>${item[1]}</td>`;  // Name
-                    row += `<td>${item[2]}</td>`;  // Description
-                    row += `<td>${item[3]}</td>`;  // Quantity
-                    row += `<td>${item[4]}</td>`;  // Price
+                    row += `<td>${item[2]}</td>`;  // Quantity
+                    row += `<td>${item[3]}</td>`;  // Supplier
+                    row += `<td>${item[4]}</td>`;  // Reorder level
                     row += "</tr>";
 
                     // Append the row to the table
