@@ -1,7 +1,7 @@
 'use strict';
 import psycopg2
 
-DB_NAME = "Project"
+DB_NAME = "restaurant_db"
 DB_USER = "postgres"
 DB_PASSWORD = "hello1234"
 DB_HOST = "localhost"
@@ -139,7 +139,7 @@ def delete_user(userid):
 
 # CHEF PAGE - viewing, changing and deleting user info END
 # Should be able to look up inventory, display items at a low reorder level differently, get contact information of suppliers
-def find_supplier(itemname):
+def find_supplier1(itemname):
     conn = connect_db()
     if not conn:
         return
@@ -474,7 +474,7 @@ if __name__ == "__main__":
         elif choice == "6":
             itemname = input("Enter item name to find supplier: ")
             
-            find_supplier(itemname)
+            find_supplier1(itemname)
         
         elif choice == "7":
             itemid = input("Enter item id to find supplier: ")

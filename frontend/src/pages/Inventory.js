@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
 
+
 export default function Inventory() {
   const [inventory, setInventory] = useState([]);
 
@@ -24,6 +25,45 @@ export default function Inventory() {
 
     fetchInventory();
   }, []);
+
+
+  const fetchSupplier = async (itemValue, searchType) => {
+    const data = searchType === "id" ? { itemid: itemValue } : { itemname: itemValue };
+  
+    try {
+      const response = await fetch("http://localhost:5000/get_supplier_by_itemname", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+  
+      const result = await response.json();
+      const supplierField = document.getElementById("supplierData");
+  
+      if (result.status === "success") {
+        const supplier = result.supplier;
+        supplierField.value = `Name: ${supplier[0]}, Phone: ${supplier[1]}, Email: ${supplier[2]}`;
+      } else {
+        supplierField.value = "No supplier found.";
+      }
+    } catch (error) {
+      console.error("Error fetching supplier:", error);
+      document.getElementById("supplierData").value = "Error fetching supplier data.";
+    }
+  };
+
+  const handleTrimmedSubmit = (event, inputId, searchType) => {
+    event.preventDefault();
+    const inputElement = document.getElementById(inputId);
+    const trimmedValue = inputElement.value.trim();
+    inputElement.value = trimmedValue;
+    if (trimmedValue) {
+      fetchSupplier(trimmedValue, searchType);
+    }
+  };
+
+
+
 
   return (
     <div className="flex">
@@ -53,14 +93,18 @@ export default function Inventory() {
             ))}
           </tbody>
         </table>
-        <form>
+        <form id="formItemID" onSubmit={(e) => handleTrimmedSubmit(e, "itemid", "id")}>
+          <label htmlFor="itemid">Search by item ID:</label>
           <input type="text" id="itemid" name="itemid"/>
           <input type="submit" value="Search"></input>
         </form>
-        <form>
+        <form id="formItemName" onSubmit={(e) => handleTrimmedSubmit(e, "itemname", "name")}>
+          <label htmlFor="itemname">Search by item name:</label>
           <input type="text" id="itemname" name="itemname"/>
           <input type="submit" value="Search"></input>
         </form>
+        <label htmlFor="supplierData">Supplier Info:</label>
+        <input type="text" id="supplierData" readOnly />
       </div>
     </div>
   );
