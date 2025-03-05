@@ -1,0 +1,180 @@
+/* FLEX CONTAINER for Sidebar + Content */
+.flex {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  /* MAIN CONTENT */
+  .p-6 {
+    flex: 1;
+    padding: 1.5rem;
+    background-color: #f9fafb;
+  }
+  
+  /* PAGE TITLE */
+  h1 {
+    font-size: 1.75rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  /* FORM CONTAINER */
+  div {
+    margin-bottom: 1rem;
+  }
+  
+  /* LABELS */
+  label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+  
+  /* INPUT FIELDS */
+  input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 2px solid #d1d5db;
+    border-radius: 0.375rem;
+    background-color: white;
+    color: black;
+    font-size: 1rem;
+  }
+  
+  input:focus {
+    outline: none;
+    border-color: #6b7280;
+    box-shadow: 0 0 0 2px #6b7280;
+  }
+  
+  /* BUTTONS */
+  button {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    cursor: pointer;
+    width: 250px;
+    border: 2px solid #d1d5db;
+  }
+  
+  #btn-update {
+    margin-top: 0.7rem;
+  }
+  button:hover {
+    background: #d1d5db; /* Darker blue on hover */
+  }
+  
+  button:active {
+    background: #363d4b; /* Even darker when clicked */
+    color: #fff;
+  }
+  
+  button.add {
+    background-color: #10b981;
+    color: white;
+  }
+  
+  button.update {
+    background-color: #3b82f6;
+    color: white;
+  }
+  
+  /* TABLE STYLES */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    margin-top: 1rem;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  th, td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  th {
+    background-color: #374151;
+    color: white;
+    font-weight: bold;
+  }
+  
+  tbody tr:hover {
+    background-color: #f3f4f6;
+  }
+  
+  /* SUPPLIER INFO */
+  #supplierData {
+    font-weight: bold;
+    background: #f3f4f6;
+    border: none;
+    padding: 0.75rem;
+  }
+
+
+.update-container,
+.search-container {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 1rem;
+  justify-content: start;
+}
+
+.search-container form {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+  
+input {
+    padding: 0.5rem;
+    border: 2px solid #d1d5db;
+    border-radius: 6px;
+    flex: 1;
+    min-width: 250px;
+  }
+
+#button {
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    font-weight: bold;
+    transition: background-color 0.3s;
+    cursor: pointer;
+    margin-top: 0.7rem;
+    width: 250px;
+    border: 2px solid #d1d5db;
+} 
+
+
+#button:hover {
+    background: #d1d5db;
+}
+
+#button:active {
+    background: #363d4b;
+    color: #fff;
+}
+
+
+  /* RESPONSIVE DESIGN */
+  @media screen and (max-width: 768px) {
+    .flex {
+      flex-direction: column;
+    }
+  
+    input {
+      font-size: 0.9rem;
+    }
+  
+    table {
+      font-size: 0.85rem;
+    }
+  }
+  
+

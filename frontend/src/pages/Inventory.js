@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "../components/Sidebar";
+import '../css/Inventory.css'; 
 
 
 export default function Inventory() {
@@ -111,36 +112,38 @@ export default function Inventory() {
   };
 
   return (
-    <div className="flex">
+    <div className="flex inventory-container">
       <Sidebar />
-      <div className="p-6 w-full">
+      <div className="content p-6 w-full">
         <h1 className="text-2xl font-bold">Inventory Management</h1>
-        <div>
-          <label htmlFor="itemname">Item Name:</label>
-          <input
-            type="text"
-            id="itemname"
-            name="itemname"
-            placeholder="Enter item name to update"
-            value={searchValue}  // bind it to searchValue to store the entered item name
-            onChange={(e) => setSearchValue(e.target.value)} // Update searchValue when user types
-          />
+        <h2 className="font-bold mb-3">Update Inventory</h2>
+        <div className="update-container">
+          <div>
+            <label htmlFor="itemname">Item Name:</label>
+            <input
+              type="text"
+              id="itemname"
+              name="itemname"
+              placeholder="Enter item name to update"
+              value={searchValue}  
+              onChange={(e) => setSearchValue(e.target.value)}
+            />
+          </div>
+          <div>
+            <label for="orderedQuantity">Ordered Quantity:</label>
+            <input
+              type="number"
+              id="orderedQuantity"
+              name="orderedQuantity"
+              placeholder="Enter quantity to add"
+              value={orderedQuantity}
+              onChange={(e) => setOrderedQuantity(Number(e.target.value))}
+            />
+          </div>
+          
+          <button className="btn" id="btn-update" onClick={handleUpdateQuantity}>Update Inventory</button>
         </div>
-        <div>
-          <label for="orderedQuantity">Ordered Quantity:</label>
-          <input
-            type="number"
-            id="orderedQuantity"
-            name="orderedQuantity"
-            placeholder="Enter quantity to add"
-            value={orderedQuantity}
-            onChange={(e) => setOrderedQuantity(Number(e.target.value))}
-          />
-        </div>
-
-
-      <button onClick={handleUpdateQuantity}>Update Inventory</button>
-        <h2>Inventory List</h2>
+        <h2 className="font-bold mb-3">Inventory List</h2>
         <table id="inventory-table">
           <thead>
             <tr>
@@ -163,18 +166,27 @@ export default function Inventory() {
             ))}
           </tbody>
         </table>
-        <form id="formItemID" onSubmit={(e) => handleTrimmedSubmit(e, "itemid", "id")}>
-          <label htmlFor="itemid">Search by item ID:</label>
-          <input type="text" id="itemid" name="itemid"/>
-          <input type="submit" value="Search"></input>
-        </form>
-        <form id="formItemName" onSubmit={(e) => handleTrimmedSubmit(e, "itemname", "name")}>
-          <label htmlFor="itemname">Search by item name:</label>
-          <input type="text" id="itemname" name="itemname"/>
-          <input type="submit" value="Search"></input>
-        </form>
+
+
+        <h2 className="font-bold mb-3 mt-3">Search information about Suppliers</h2>
+        <div className="search-container">
+          <form id="formItemID" onSubmit={(e) => handleTrimmedSubmit(e, "itemid", "id")}>
+            <label htmlFor="itemid">Search by item ID:</label>
+            <input type="text" id="itemid" name="itemid"/>
+            {/* <input type="submit" id="button" value="Search"></input> */}
+            <button className="btn">Search</button>
+          </form>
+
+          <form id="formItemName" onSubmit={(e) => handleTrimmedSubmit(e, "itemname", "name")}>
+            <label htmlFor="itemname">Search by item name:</label>
+            <input type="text" id="itemname" name="itemname"/>
+            {/* <input type="submit" value="Search"></input> */}
+            <button className="btn">Search</button>
+          </form>
+        </div>
         <label htmlFor="supplierData">Supplier Info:</label>
         <input type="text" id="supplierData" readOnly />
+
       </div>
     </div>
   );
