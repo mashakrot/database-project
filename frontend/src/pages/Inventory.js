@@ -5,6 +5,10 @@ import Sidebar from "../components/Sidebar";
 export default function Inventory() {
   const [inventory, setInventory] = useState([]);
 
+  const [orderedQuantity, setOrderedQuantity] = useState(0);
+  const [price, setPrice] = useState(0);
+  const [searchValue, setSearchValue] = useState("");
+
   useEffect(() => {
     // Fetch data from the Flask backend
     const fetchInventory = async () => {
@@ -51,6 +55,7 @@ export default function Inventory() {
       document.getElementById("supplierData").value = "Error fetching supplier data.";
     }
   };
+  
 
   const handleTrimmedSubmit = (event, inputId, searchType) => {
     event.preventDefault();
@@ -62,14 +67,77 @@ export default function Inventory() {
     }
   };
 
-
-
+  const handleUpdateQuantity = () => {
+    // Ensure searchValue (itemname) is not empty
+    if (!searchValue) {
+      alert("Please enter the item name.");
+      return;
+    }
+  
+    // Check if item exists in the inventory list based on itemname
+    const updatedInventory = inventory.map(item => {
+      if (item[1].toLowerCase() === searchValue.toLowerCase()) {  // item[1] is itemname
+        const newQuantity = item[2] + orderedQuantity;  // Update the quantity based on orderedQuantity
+        // Send a request to the backend to update the inventory
+        fetch("http://localhost:5000/update_inventory", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            itemName: searchValue,  // Send the item name to backend
+            orderedQuantity: orderedQuantity,  // Send the ordered quantity
+            price: price,  // Send the price (optional, if you're updating the price as well)
+          }),
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.status === "success") {
+              setInventory(data.updatedInventory);  // Update the inventory with the backend data
+              alert("Inventory updated successfully!");
+            } else {
+              alert("Error updating inventory: " + data.message);
+            }
+          })
+          .catch((error) => {
+            console.error("Error updating inventory:", error);
+            alert("Error updating inventory.");
+          });
+      }
+      return item;
+    });
+  };
 
   return (
     <div className="flex">
       <Sidebar />
       <div className="p-6 w-full">
         <h1 className="text-2xl font-bold">Inventory Management</h1>
+        <div>
+          <label htmlFor="itemname">Item Name:</label>
+          <input
+            type="text"
+            id="itemname"
+            name="itemname"
+            placeholder="Enter item name to update"
+            value={searchValue}  // bind it to searchValue to store the entered item name
+            onChange={(e) => setSearchValue(e.target.value)} // Update searchValue when user types
+          />
+        </div>
+        <div>
+          <label for="orderedQuantity">Ordered Quantity:</label>
+          <input
+            type="number"
+            id="orderedQuantity"
+            name="orderedQuantity"
+            placeholder="Enter quantity to add"
+            value={orderedQuantity}
+            onChange={(e) => setOrderedQuantity(Number(e.target.value))}
+          />
+        </div>
+
+
+      <button onClick={handleUpdateQuantity}>Update Inventory</button>
         <h2>Inventory List</h2>
         <table id="inventory-table">
           <thead>

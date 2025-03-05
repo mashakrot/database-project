@@ -100,8 +100,40 @@ def handle_get_supplier_by_itemname():
         return jsonify({"status": "error", "message": "No supplier found"}), 404
     
 
+@app.route('/update_inventory', methods=['POST'])
+def update_inventory():
+    data = request.get_json()
+    item_name = data.get("itemName")
+    ordered_quantity = data.get("orderedQuantity")
 
+    # Connect to the database
+    conn = connect_db()
+    if not conn:
+        return jsonify({"status": "error", "message": "Database connection failed"})
 
+    cur = conn.cursor()
+
+    # Check if the item exists in the database
+    cur.execute("SELECT * FROM inventory WHERE itemname = %s", (item_name,))
+    item = cur.fetchone()
+
+    if item:
+        # If the item exists, update its quantity
+        new_quantity = item[2] + ordered_quantity
+        cur.execute("UPDATE inventory SET quantity = %s WHERE itemname = %s", (new_quantity, item_name))
+    else:
+        # If the item doesn't exist, insert a new record
+        cur.execute("INSERT INTO inventory (itemname, quantity) VALUES (%s, %s)", 
+                    (item_name, ordered_quantity))
+
+    conn.commit()
+
+    # Get the updated inventory and send it back as a response
+    cur.execute("SELECT * FROM inventory")
+    updated_inventory = cur.fetchall()
+    conn.close()
+
+    return jsonify({"status": "success", "updatedInventory": updated_inventory})
 
 if __name__ == '__main__':
     app.run(debug=True)
