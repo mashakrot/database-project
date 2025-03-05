@@ -256,3 +256,22 @@
   margin: auto;
   min-width: 350px;
 }
+
+/* TODO: adjust so form would go down when screen size is small  */
+
+@media screen and (max-width: 800px) {
+  .calendar-container {
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center everything */
+  }
+
+  .calendar {
+    max-width: 100%;
+  }
+
+  .shift-form {
+    width: 100%;
+    max-width: 400px;
+    margin-top: 1rem;
+  }
+}

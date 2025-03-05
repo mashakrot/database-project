@@ -68,43 +68,45 @@ export default function Inventory() {
   return (
     <div className="flex">
       <Sidebar />
-      <div className="p-6 w-full">
-        <h1 className="text-2xl font-bold">Inventory Management</h1>
-        <h2>Inventory List</h2>
-        <table id="inventory-table">
-          <thead>
-            <tr>
-              <th>Item ID</th>
-              <th>Name</th>
-              <th>Quantity</th>
-              <th>Category</th> {/* Renamed this for clarity */}
-              <th>Price</th>
-            </tr>
-          </thead>
-          <tbody>
-            {inventory.map(item => (
-              <tr key={item[0]}>
-                <td>{item[0]}</td> {/* Item ID */}
-                <td>{item[1]}</td> {/* Item Name */}
-                <td>{item[2]}</td> {/* Quantity */}
-                <td>{item[3]}</td> {/* Category */}
-                <td>${item[4]}</td> {/* Price */}
+      <div className="flex-1 ml-60 p-5">
+        <div className="p-6 w-full">
+          <h1 className="text-2xl font-bold">Inventory Management</h1>
+          <h2>Inventory List</h2>
+          <table id="inventory-table">
+            <thead>
+              <tr>
+                <th>Item ID</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Category</th> {/* Renamed this for clarity */}
+                <th>Price</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <form id="formItemID" onSubmit={(e) => handleTrimmedSubmit(e, "itemid", "id")}>
-          <label htmlFor="itemid">Search by item ID:</label>
-          <input type="text" id="itemid" name="itemid"/>
-          <input type="submit" value="Search"></input>
-        </form>
-        <form id="formItemName" onSubmit={(e) => handleTrimmedSubmit(e, "itemname", "name")}>
-          <label htmlFor="itemname">Search by item name:</label>
-          <input type="text" id="itemname" name="itemname"/>
-          <input type="submit" value="Search"></input>
-        </form>
-        <label htmlFor="supplierData">Supplier Info:</label>
-        <input type="text" id="supplierData" readOnly />
+            </thead>
+            <tbody>
+              {inventory.map(item => (
+                <tr key={item[0]}>
+                  <td>{item[0]}</td> {/* Item ID */}
+                  <td>{item[1]}</td> {/* Item Name */}
+                  <td>{item[2]}</td> {/* Quantity */}
+                  <td>{item[3]}</td> {/* Category */}
+                  <td>${item[4]}</td> {/* Price */}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <form id="formItemID" onSubmit={(e) => handleTrimmedSubmit(e, "itemid", "id")}>
+            <label htmlFor="itemid">Search by item ID:</label>
+            <input type="text" id="itemid" name="itemid"/>
+            <input type="submit" value="Search"></input>
+          </form>
+          <form id="formItemName" onSubmit={(e) => handleTrimmedSubmit(e, "itemname", "name")}>
+            <label htmlFor="itemname">Search by item name:</label>
+            <input type="text" id="itemname" name="itemname"/>
+            <input type="submit" value="Search"></input>
+          </form>
+          <label htmlFor="supplierData">Supplier Info:</label>
+          <input type="text" id="supplierData" readOnly />
+        </div>
       </div>
     </div>
   );
