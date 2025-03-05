@@ -20,21 +20,34 @@ export default function Reservations() {
       .catch((err) => console.error("Fetch error:", err));
   }, []);
 
+  // Function to parse and format time slot
+  const formatTimeslot = (timeslot) => {
+    const date = new Date(timeslot);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
+  };
+
   // Sorting function
   const sortedReservations = [...reservations].sort((a, b) => {
-    if (!sortConfig.key) return 0; // If no sorting key is selected, return as is
-
+    if (sortConfig.key === null) return 0;
+  
     const keyIndex = sortConfig.key;
-    const valueA = a[keyIndex];
-    const valueB = b[keyIndex];
-
-    if (typeof valueA === "string") {
-      return sortConfig.direction === "asc"
-        ? valueA.localeCompare(valueB)
-        : valueB.localeCompare(valueA);
-    } else {
-      return sortConfig.direction === "asc" ? valueA - valueB : valueB - valueA;
+    let valueA = a[keyIndex];
+    let valueB = b[keyIndex];
+  
+    if (keyIndex === 0) {
+      valueA = Number(valueA);
+      valueB = Number(valueB);
+    } else if (keyIndex === 5) {
+      valueA = new Date(valueA);
+      valueB = new Date(valueB);
     }
+  
+    return sortConfig.direction === "asc" ? (valueA > valueB ? 1 : -1) : (valueA < valueB ? 1 : -1);
   });
 
   // Handle column click for sorting
@@ -93,7 +106,7 @@ export default function Reservations() {
                 <td className="border border-gray-300 p-2">{item[2]}</td> {/* Customer Name */}
                 <td className="border border-gray-300 p-2">{item[3]}</td> {/* Telephone Number */}
                 <td className="border border-gray-300 p-2">{item[4]}</td> {/* Status */}
-                <td className="border border-gray-300 p-2">{item[5]}</td> {/* Timeslot */}
+                <td className="border border-gray-300 p-2">{formatTimeslot(item[5])}</td>
               </tr>
             ))}
           </tbody>
