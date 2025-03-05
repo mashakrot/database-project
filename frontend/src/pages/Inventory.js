@@ -18,7 +18,8 @@ export default function Inventory() {
         });
         const data = await response.json();
         if (data.status === "success") {
-          setInventory(data.inventory);
+          const sortedInventory = data.inventory.sort((a, b) => a[0] - b[0]); 
+          setInventory(sortedInventory);
         } else {
           console.log("Error:", data.message);
         }
@@ -93,7 +94,8 @@ export default function Inventory() {
           .then(response => response.json())
           .then(data => {
             if (data.status === "success") {
-              setInventory(data.updatedInventory);  // Update the inventory with the backend data
+              const sortedInventory = data.updatedInventory.sort((a, b) => a[0] - b[0]);
+              setInventory(sortedInventory);  // Update the inventory with the backend data
               alert("Inventory updated successfully!");
             } else {
               alert("Error updating inventory: " + data.message);
