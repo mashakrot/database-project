@@ -19,7 +19,7 @@ export default function Dashboard({ user }) {
 
         <div className="p-6 w-full">
           <h1 className="text-2xl font-bold">Welcome, {user?.name}</h1>
-          <p>Your role: {user?.role}</p>
+          {/* <p>Your role: {user?.role}</p> */}
 
   {/* maybe add workers schedules here...now it is in staffschedules  */}
         </div>

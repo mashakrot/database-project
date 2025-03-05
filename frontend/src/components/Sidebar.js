@@ -40,7 +40,7 @@ export default function Sidebar() {
         </li>
         <li>
           <Link
-            to="/dashboard"
+            to="/login"
             className="block py-3 px-4 rounded-md transition bg-gray-900 hover:bg-gray-700"
           >
             Log out

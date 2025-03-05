@@ -152,13 +152,15 @@ def handle_login():
     if user:
         response = jsonify({"status": "success", "user": user})
     else:
-        response = jsonify({"status": "error", "message": "Invalid credentials"}), 401
+        response = jsonify({"status": "error", "message": "Invalid credentials"})
+        response.status_code = 401  
 
-    response.headers.add("Access-Control-Allow-Origin", "*")  # 🔹 Explicitly allow CORS
+    response.headers.add("Access-Control-Allow-Origin", "*")  
     response.headers.add("Access-Control-Allow-Headers", "Content-Type, Authorization")
     response.headers.add("Access-Control-Allow-Methods", "POST, GET, OPTIONS")
 
     return response
+
 
 
 # Reservations 
