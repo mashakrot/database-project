@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 export default function Sidebar() {
   return (
-    <div className="w-60 bg-gray-900 text-white h-screen p-5">
+    <div className="fixed top-0 left-0 w-60 bg-gray-900 text-white h-screen p-5">
       <h2 className="text-lg font-semibold mb-5">Menu</h2>
       <ul className="space-y-2">
         <li>
