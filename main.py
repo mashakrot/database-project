@@ -33,7 +33,6 @@ def connect_db():
 
 
 
-
 # ADMIN PAGE - viewing, changing and deleting user info
 def get_user_info(userid):
     conn = connect_db()
@@ -139,7 +138,54 @@ def delete_user(userid):
 
 # CHEF PAGE - viewing, changing and deleting user info END
 # Should be able to look up inventory, display items at a low reorder level differently, get contact information of suppliers
+def find_supplier(itemname):
+    conn = connect_db()
+    if not conn:
+        return
+    
+    cur = conn.cursor()
+    cur.execute("SELECT suppliername, suppliers.telephonenumber, suppliers.email FROM suppliers WHERE supplierid = (SELECT supplierid FROM inventory WHERE itemname = %s)", (itemname,))
+    supplier = cur.fetchone()
+    
+    print("user updated successfully!")
+    conn.close()
+    
+def delete_user(userid):
+    conn = connect_db()
+    if not conn:
+        return
+    cur = conn.cursor()
+    
+    # delete from staff assignments
+    """ cur.execute("SELECT * FROM sc WHERE userid = %s", (userid,))
+    if cur.fetchone():
+        print("user is enrolled in courses. Deleting enrollments first...")
+        cur.execute("DELETE FROM sc WHERE userid = %s", (userid,)) """
+    
+    cur.execute("DELETE FROM users WHERE userid = %s", (userid,))
+    conn.commit()
+    print("user deleted successfully!")
+    conn.close()
+# ADMIN PAGE - viewing, changing and deleting user info END
+
+
+# HOST PAGE - viewing, changing and deleting user info END
+
+# HOST PAGE - viewing, changing and deleting user info END
+
+
+
+# STAFF PAGE - viewing, changing and deleting user info END
+# STAFF PAGE - viewing, changing and deleting user info END
+
+
+
+
+
+# CHEF PAGE - viewing, changing and deleting user info END
+# Should be able to look up inventory, display items at a low reorder level differently, get contact information of suppliers
 def find_supplier1(itemname):
+
     conn = connect_db()
     if not conn:
         return
@@ -385,7 +431,7 @@ def get_schedules():
     schedules = cur.fetchall()
     
     conn.close()
-    
+
     if schedules:
         print(f"user found: {schedules}")
     else:
@@ -421,6 +467,7 @@ if __name__ == "__main__":
 
         # get_roles()
         get_inventory()
+
         # get_users()
         # get_reservations()
         # get_suppliers()
@@ -474,7 +521,9 @@ if __name__ == "__main__":
         elif choice == "6":
             itemname = input("Enter item name to find supplier: ")
             
-            find_supplier1(itemname)
+
+              find_supplier1(itemname)
+
         
         elif choice == "7":
             itemid = input("Enter item id to find supplier: ")
