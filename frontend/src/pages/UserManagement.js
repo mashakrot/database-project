@@ -9,16 +9,16 @@ const UserManagement = () => {
   useEffect(() => {
     fetch("http://localhost:5000/users")
       .then((response) => response.json())
-      .then((data) => setUsers(data.users)) // Fix: Access `data.users` instead of `data`
+      .then((data) => setUsers(data.users))
       .catch((error) => console.error("Error fetching users:", error));
   }, []);
 
-  // Handle input change
+
   const handleChange = (e) => {
     setNewUser({ ...newUser, [e.target.name]: e.target.value });
   };
 
-  // Add user
+
   const handleAddUser = () => {
     fetch("http://localhost:5000/users", {
       method: "POST",
@@ -28,8 +28,8 @@ const UserManagement = () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.status === "success") {
-          setUsers([...users, { userid: data.userid, ...newUser }]); // Fix: userid instead of id
-          setNewUser({ name: "", email: "", telephonenumber: "", author: "Staff" }); // Reset form
+          setUsers([...users, { userid: data.userid, ...newUser }]); 
+          setNewUser({ name: "", email: "", telephonenumber: "", author: "Staff" });
         }
       })
       .catch((error) => console.error("Error adding user:", error));
@@ -41,7 +41,7 @@ const UserManagement = () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.status === "success") {
-          setUsers(users.filter((user) => user.userid !== userid)); // Fix: userid instead of id
+          setUsers(users.filter((user) => user.userid !== userid)); 
         }
       })
       .catch((error) => console.error("Error deleting user:", error));

@@ -1,36 +1,30 @@
-/* FLEX CONTAINER for Sidebar + Content */
 .flex {
     display: flex;
     min-height: 100vh;
   }
   
-  /* MAIN CONTENT */
   .p-6 {
     flex: 1;
     padding: 1.5rem;
     background-color: #f9fafb;
   }
   
-  /* PAGE TITLE */
   h1 {
     font-size: 1.75rem;
     font-weight: bold;
     margin-bottom: 1rem;
   }
   
-  /* FORM CONTAINER */
   div {
     margin-bottom: 1rem;
   }
   
-  /* LABELS */
   label {
     font-weight: bold;
     display: block;
     margin-bottom: 0.25rem;
   }
   
-  /* INPUT FIELDS */
   input {
     width: 100%;
     padding: 0.5rem;
@@ -47,7 +41,6 @@
     box-shadow: 0 0 0 2px #6b7280;
   }
   
-  /* BUTTONS */
   button {
     width: 100%;
     padding: 0.5rem;
@@ -64,11 +57,11 @@
     margin-top: 0.7rem;
   }
   button:hover {
-    background: #d1d5db; /* Darker blue on hover */
+    background: #d1d5db;
   }
   
   button:active {
-    background: #363d4b; /* Even darker when clicked */
+    background: #363d4b; 
     color: #fff;
   }
   
@@ -82,7 +75,6 @@
     color: white;
   }
   
-  /* TABLE STYLES */
   table {
     width: 100%;
     border-collapse: collapse;
@@ -108,7 +100,6 @@
     background-color: #f3f4f6;
   }
   
-  /* SUPPLIER INFO */
   #supplierData {
     font-weight: bold;
     background: #f3f4f6;
@@ -162,7 +153,6 @@ input {
 }
 
 
-  /* RESPONSIVE DESIGN */
   @media screen and (max-width: 768px) {
     .flex {
       flex-direction: column;

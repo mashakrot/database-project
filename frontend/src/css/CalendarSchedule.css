@@ -147,7 +147,6 @@
 }
 
 
-/* Modal Overlay */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -161,7 +160,6 @@
   z-index: 999;
 }
 
-/* Modal Content */
 .modal-content {
   background-color: white;
   padding: 2rem;
@@ -265,8 +263,8 @@
 
 @media screen and (max-width: 800px) {
   .calendar-container {
-    flex-direction: column; /* Stack items vertically */
-    align-items: center; /* Center everything */
+    flex-direction: column; 
+    align-items: center; 
   }
 
   .calendar {

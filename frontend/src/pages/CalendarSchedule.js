@@ -12,11 +12,11 @@ const CalendarSchedule = () => {
   const [searchFilters, setSearchFilters] = useState({ shiftdate: '', approvalstatus: '', userid: '' });
 
   useEffect(() => {
-    fetch('http://localhost:5000/get_schedules', { method: 'GET' })  // Use GET instead of POST
+    fetch('http://localhost:5000/get_schedules', { method: 'GET' }) 
       .then((response) => response.json())
       .then((data) => {
         if (data.status === 'success') {
-          setSchedules(data.schedules);  // Save all schedules from API
+          setSchedules(data.schedules); 
         }
       })
       .catch((error) => console.log(error));
@@ -139,7 +139,6 @@ const CalendarSchedule = () => {
         <div className="p-6 w-full">
 
           <div className="content">
-            {/* Calendar Container */}
             <div className="calendar-container">
               <h2 className="calendar-title">Staff Schedule Calendar</h2>
 

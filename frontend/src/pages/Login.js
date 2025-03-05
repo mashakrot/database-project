@@ -25,9 +25,9 @@ export default function Login({ setUser }) {
 
       if (response.ok) {
         console.log("Login successful:", data);
-        localStorage.setItem("token", data.access_token); // Save token
-        setUser(data.user); // Store user in state
-        navigate("/dashboard"); // Redirect to dashboard
+        localStorage.setItem("token", data.access_token);
+        setUser(data.user); 
+        navigate("/dashboard");
       } else {
         setError(data.message || "Invalid credentials");
       }
@@ -38,7 +38,7 @@ export default function Login({ setUser }) {
 
   return (
     <div className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96">
+      <div className="bg-white p-6 rounded-lg shadow-lg" style={{ width: '450px' }}>
         <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
         {error && <p className="text-red-500 text-center mb-2">{error}</p>}
         <input

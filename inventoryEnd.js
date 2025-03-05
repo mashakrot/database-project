@@ -1,24 +1,24 @@
+/* global $ */
+
 async function fetchAndPopulateTable() {
     $.ajax({
         type: "POST",
-        url: "http://localhost:5000/get_inventory", // Adjust URL to match Flask backend
+        url: "http://localhost:5000/get_inventory", 
         success: function(response) {
             if (response.status === "success") {
                 let inventory = response.inventory;
-                let tableBody = $("#inventory-table tbody"); // Get the table body element
+                let tableBody = $("#inventory-table tbody"); 
 
-                // Loop through each inventory item and create a row
+
                 inventory.forEach(item => {
-                    // Assuming item is a tuple or array like [id, name, description, quantity, reorderlevel]
                     let row = "<tr>";
-                    row += `<td>${item[0]}</td>`;  // Item ID
-                    row += `<td>${item[1]}</td>`;  // Name
-                    row += `<td>${item[2]}</td>`;  // Quantity
-                    row += `<td>${item[3]}</td>`;  // Supplier
-                    row += `<td>${item[4]}</td>`;  // Reorder level
+                    row += `<td>${item[0]}</td>`;  
+                    row += `<td>${item[1]}</td>`;  
+                    row += `<td>${item[2]}</td>`;  
+                    row += `<td>${item[3]}</td>`;  
+                    row += `<td>${item[4]}</td>`;  
                     row += "</tr>";
 
-                    // Append the row to the table
                     tableBody.append(row);
                 });
             } else {

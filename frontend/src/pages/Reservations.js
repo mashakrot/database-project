@@ -102,12 +102,12 @@ export default function Reservations() {
             <tbody>
               {sortedReservations.map((item, i) => (
                 <tr key={i} className="hover:bg-gray-100">
-                  <td className="border border-gray-300 p-2">{item[0]}</td> {/* Reservation ID */}
-                  <td className="border border-gray-300 p-2">{item[1]}</td> {/* Table ID */}
-                  <td className="border border-gray-300 p-2">{item[2]}</td> {/* Customer Name */}
-                  <td className="border border-gray-300 p-2">{item[3]}</td> {/* Telephone Number */}
-                  <td className="border border-gray-300 p-2">{item[4]}</td> {/* Status */}
-                  <td className="border border-gray-300 p-2">{item[5]}</td> {/* Timeslot */}
+                  <td className="border border-gray-300 p-2">{item[0]}</td>
+                  <td className="border border-gray-300 p-2">{item[1]}</td>
+                  <td className="border border-gray-300 p-2">{item[2]}</td>
+                  <td className="border border-gray-300 p-2">{item[3]}</td>
+                  <td className="border border-gray-300 p-2">{item[4]}</td>
+                  <td className="border border-gray-300 p-2">{item[5]}</td>
                 </tr>
               ))}
             </tbody>
