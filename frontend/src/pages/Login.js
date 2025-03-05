@@ -9,8 +9,11 @@ export default function Login({ setUser }) {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const login = async () => {
+  const login = async (event) => {
+    event.preventDefault(); 
     setError(null);
+
+    
     try {
       const response = await fetch(`${API_URL}/login`, {
         method: "POST",
@@ -21,8 +24,10 @@ export default function Login({ setUser }) {
       const data = await response.json();
 
       if (response.ok) {
-        setUser(data.user);
-        navigate("/dashboard");
+        console.log("Login successful:", data);
+        localStorage.setItem("token", data.access_token); // Save token
+        setUser(data.user); // Store user in state
+        navigate("/dashboard"); // Redirect to dashboard
       } else {
         setError(data.message || "Invalid credentials");
       }

@@ -186,7 +186,6 @@ export default function Inventory() {
         </div>
         <label htmlFor="supplierData">Supplier Info:</label>
         <input type="text" id="supplierData" readOnly />
-
       </div>
     </div>
   );

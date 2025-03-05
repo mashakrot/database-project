@@ -4,7 +4,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Reservations from "./pages/Reservations";
 import Inventory from "./pages/Inventory";
-import StaffSchedules from "./pages/StaffSchedules";
+import StaffSchedules from "./pages/CalendarSchedule";
 
 export default function App() {
   const [user, setUser] = useState(null);

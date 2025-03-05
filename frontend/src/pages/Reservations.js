@@ -108,20 +108,32 @@ export default function Reservations() {
                 <td className="border border-gray-300 p-2">{item[4]}</td> {/* Status */}
                 <td className="border border-gray-300 p-2">{formatTimeslot(item[5])}</td>
               </tr>
-            ))}
-          </tbody>
-        </table>
-        <form id="cancelResForm">
-          <label for="cancelRes">Search by:</label>
-          <select name="cancelRes" id="cancelRes">
-            <option value="customerName">Customer name</option>
-            <option value="date">Date</option>
-            <option value="status">Status</option>
-            <option value="tableID">Table ID</option>
-          </select>
-          <input type="text" id="itemname" name="itemname"/>
-          <input type="submit" value="Search"/>
-        </form>
+            </thead>
+            <tbody>
+              {sortedReservations.map((item, i) => (
+                <tr key={i} className="hover:bg-gray-100">
+                  <td className="border border-gray-300 p-2">{item[0]}</td> {/* Reservation ID */}
+                  <td className="border border-gray-300 p-2">{item[1]}</td> {/* Table ID */}
+                  <td className="border border-gray-300 p-2">{item[2]}</td> {/* Customer Name */}
+                  <td className="border border-gray-300 p-2">{item[3]}</td> {/* Telephone Number */}
+                  <td className="border border-gray-300 p-2">{item[4]}</td> {/* Status */}
+                  <td className="border border-gray-300 p-2">{item[5]}</td> {/* Timeslot */}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          <form id="cancelResForm">
+            <label for="cancelRes">Search by:</label>
+            <select name="cancelRes" id="cancelRes">
+              <option value="customerName">Customer name</option>
+              <option value="date">Date</option>
+              <option value="status">Status</option>
+              <option value="tableID">Table ID</option>
+            </select>
+            <input type="text" id="itemname" name="itemname"/>
+            <input type="submit" value="Search"/>
+          </form>
+        </div>
       </div>
     </div>
   );
