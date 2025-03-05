@@ -20,30 +20,30 @@ def connect_db():
         print(f"Error connecting to the database: {e}")
         return None
 
-def get_inventory():
+def get_reservations():
     conn = connect_db()
     if not conn:
-        return None
+        return
     
     cur = conn.cursor()
-    cur.execute("SELECT * FROM inventory")  # Adjust the query as needed
-    inventory = cur.fetchall()  # Fetch all rows from the result
+    cur.execute("SELECT * FROM reservations")
+    reservations = cur.fetchall()
     
     conn.close()
     
-    return inventory  # Return the inventory data
+    return reservations  # Return the reservations data
 
-@app.route('/get_inventory', methods=['POST'])  # Adjust the route to '/inventory'
-def handle_get_inventory():
-    # Call the get_inventory function to fetch inventory data
-    inventory = get_inventory()
+@app.route('/get_reservations', methods=['GET'])  
+def handle_get_reservations():
+    # Call the get_reservations function to fetch reservations data
+    reservations = get_reservations()
 
-    if inventory:
-        # Return the inventory data as JSON
-        return jsonify({"status": "success", "inventory": inventory})
+    if reservations:
+        # Return the reservations data as JSON
+        return jsonify({"status": "success", "reservations": reservations})
     else:
-        # Return an error if no inventory is found or there was an issue
-        return jsonify({"status": "error", "message": "No inventory found"}), 404
+        # Return an error if no reservations is found or there was an issue
+        return jsonify({"status": "error", "message": "No reservations found"}), 404
 
 if __name__ == '__main__':
     app.run(debug=True)
