@@ -1,0 +1,258 @@
+.container {
+  display: flex;
+  min-height: 100vh;
+  background-color: white;
+  color: black;
+}
+
+.content {
+  display: flex;
+  flex-grow: 1;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.calendar-container {
+  flex-grow: 1;
+}
+
+.calendar-title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+}
+
+.shift-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.shift-block {
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.375rem;
+  color: white;
+  cursor: pointer;
+}
+
+.shift-block.pending {
+  background-color: #f59e0b;
+}
+
+.shift-block.approved {
+  background-color: #10b981;
+}
+
+.shift-block.rejected {
+  background-color: #ef4444;
+}
+
+.user-id {
+  font-size: 0.875rem;
+}
+
+.shift-time {
+  font-size: 0.875rem;
+}
+
+.status {
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+/* Add New Shift Form */
+.shift-form {
+  width: 300px;
+  height: 400px;
+  background-color: #f3f4f6;
+  padding: 1.5rem;
+  border-radius: 0.375rem;
+  margin: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #d1d5db;
+  border-radius: 0.375rem;
+  background-color: white;
+  color: black;
+  margin-bottom: 1rem;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #6b7280;
+  box-shadow: 0 0 0 1px #6b7280;
+}
+
+.time-inputs {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-button {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  color: white;
+  background-color: #111827;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 1rem;
+}
+
+.form-button.save {
+  background-color: #10b981;
+}
+
+.form-button.save:hover {
+  background-color: #047857;
+}
+
+.form-button.approve {
+  background-color: #10b981;
+}
+
+.form-button.approve:hover {
+  background-color: #047857;
+}
+
+.form-button.reject {
+  background-color: #ef4444;
+}
+
+.form-button.reject:hover {
+  background-color: #9b2c2c;
+}
+
+/* Edit Shift Form */
+.edit-shift-form {
+  width: 300px;
+  background-color: #f3f4f6;
+  padding: 1.5rem;
+  border-radius: 0.375rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.edit-shift-form .form-button {
+  margin-top: 0.5rem;
+}
+
+
+/* Modal Overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+/* Modal Content */
+.modal-content {
+  background-color: white;
+  padding: 2rem;
+  border-radius: 0.375rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
+
+.form-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #d1d5db;
+  border-radius: 0.375rem;
+  background-color: white;
+  color: black;
+  margin-bottom: 1rem;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #6b7280;
+  box-shadow: 0 0 0 1px #6b7280;
+}
+
+.time-inputs {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-button {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  color: white;
+  background-color: #28385a;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 1rem;
+}
+
+.form-button:hover {
+  background-color: #111827;
+}
+
+.form-button:active {
+  background-color: #363d4b;
+}
+
+.form-button.cancel {
+  background-color: #ef4444;
+}
+
+.form-button.cancel:hover {
+  background-color: #9b2c2c;
+}
+
+.form-button.save {
+  background-color: #10b981;
+}
+
+.form-button.save:hover {
+  background-color: #047857;
+}
+
+.new-shift-button {
+  background-color: #10b981;
+  color: white;
+  padding: 0.75rem;
+  border-radius: 0.375rem;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+.new-shift-button:hover {
+  background-color: #047857;
+}
+
+.calendar-container {
+  margin: 30px;
+}
+
+.react-calendar {
+  width: 100%;
+  margin: auto;
+  min-width: 350px;
+}
