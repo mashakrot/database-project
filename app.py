@@ -119,7 +119,7 @@ def update_inventory():
         conn.close()
 
 # login 
-# TODO: check login and adjust frontend
+# TODO:  adjust frontend
 
 def login(email, password):
     conn = connect_db()
@@ -133,7 +133,7 @@ def login(email, password):
     cur.close()
     conn.close()
     
-    if not db_user or db_user[2] != password:  # Plain-text password (Not secure, consider bcrypt)
+    if not db_user or db_user[2] != password: 
         return None  
 
     return {"userid": db_user[0], "name": db_user[1]}  
@@ -176,18 +176,15 @@ def get_reservations():
     
     conn.close()
     
-    return reservations  # Return the reservations data
+    return reservations 
 
 @app.route('/get_reservations', methods=['GET'])  
 def handle_get_reservations():
-    # Call the get_reservations function to fetch reservations data
     reservations = get_reservations()
 
     if reservations:
-        # Return the reservations data as JSON
         return jsonify({"status": "success", "reservations": reservations})
     else:
-        # Return an error if no reservations is found or there was an issue
         return jsonify({"status": "error", "message": "No reservations found"}), 404
 
 
@@ -200,7 +197,6 @@ def get_schedules():
     
     cur = conn.cursor()
     
-    # Query to fetch all schedules
     query = "SELECT scheduleid, userid, shiftdate, timestart, timeend, approvalstatus FROM schedules"
     cur.execute(query)
     
@@ -370,7 +366,7 @@ def add_user():
     name = data.get('name')
     email = data.get('email')
     telephonenumber = data.get('telephonenumber')
-    author = data.get('author', 'Staff')  # Default to 'Staff' if not provided
+    author = data.get('author', 'Staff') 
 
     try:
         conn = connect_db()

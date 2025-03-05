@@ -43,11 +43,11 @@ async function fetchSupplier(itemValue, searchType) {
 
     $.ajax({
         type: "POST",
-        url: "http://localhost:5000/get_supplier_by_itemname", // Adjust URL to match Flask backend
-        contentType: 'application/json', // Set content type to JSON
-        data: JSON.stringify(data), // Send data as JSON string
+        url: "http://localhost:5000/get_supplier_by_itemname",
+        contentType: 'application/json', 
+        data: JSON.stringify(data), 
         success: function(response) {
-            console.log("Response:", response); // DELETE
+            console.log("Response:", response); 
             let supplierField = $("#supplierData");
 
             if (response.status === "success") {
