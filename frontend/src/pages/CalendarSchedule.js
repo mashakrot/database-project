@@ -9,17 +9,19 @@ const CalendarSchedule = () => {
   const [date, setDate] = useState(new Date());
   const [editingShift, setEditingShift] = useState(null); 
   const [newShift, setNewShift] = useState({ shiftdate: "", timestart: "", timeend: "" });
+  const [searchFilters, setSearchFilters] = useState({ shiftdate: '', approvalstatus: '', userid: '' });
 
   useEffect(() => {
-    fetch('http://localhost:5000/get_schedules', { method: 'POST' })
+    fetch('http://localhost:5000/get_schedules', { method: 'GET' })  // Use GET instead of POST
       .then((response) => response.json())
       .then((data) => {
         if (data.status === 'success') {
-          setSchedules(data.schedules);
+          setSchedules(data.schedules);  // Save all schedules from API
         }
       })
       .catch((error) => console.log(error));
   }, []);
+  
 
   // Function to get shifts for a particular day
   const getShiftsForDay = (day) => {
@@ -49,7 +51,6 @@ const CalendarSchedule = () => {
       <div
         key={shift.scheduleid}
         className={`shift-block ${getStatusColor(shift.approvalstatus)}`}
-        onClick={() => setEditingShift(shift)} 
       >
         <p className="user-id">{shift.userid}</p>
         <p className="shift-time">
@@ -132,83 +133,85 @@ const CalendarSchedule = () => {
   };
 
   return (
-    <div className="container">
+    <div className="p-6 w-full container">
       <Sidebar />
       <div className="flex-1 ml-60 p-5">
+        <div className="p-6 w-full">
 
-        <div className="content">
-          {/* Calendar Container */}
-          <div className="calendar-container">
-            <h2 className="calendar-title">Staff Schedule Calendar</h2>
-            
-            <div className="calendar">
-              <Calendar
-                onChange={setDate}
-                value={date}
-                tileContent={({ date, view }) => {
-                  if (view === 'month') {
-                    return (
-                      <div className="shift-container">
-                        {renderShiftBlocks(date)}
-                      </div>
-                    );
-                  }
-                  return null;
-                }}
+          <div className="content">
+            {/* Calendar Container */}
+            <div className="calendar-container">
+              <h2 className="calendar-title">Staff Schedule Calendar</h2>
+
+              <div className="calendar">
+                <Calendar
+                  onChange={setDate}
+                  value={date}
+                  tileContent={({ date, view }) => {
+                    if (view === 'month') {
+                      return (
+                        <div className="shift-container">
+                          {renderShiftBlocks(date)}
+                        </div>
+                      );
+                    }
+                    return null;
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Add a New Shift Form */}
+            <div className="shift-form">
+              <h3 className="form-title">Add a New Shift</h3>
+              <input
+                type="date"
+                value={newShift.shiftdate}
+                onChange={(e) => setNewShift({ ...newShift, shiftdate: e.target.value })}
+                className="form-input"
               />
+              <div className="time-inputs">
+                <input
+                  type="time"
+                  value={newShift.timestart}
+                  onChange={(e) => setNewShift({ ...newShift, timestart: e.target.value })}
+                  className="form-input"
+                />
+                <input
+                  type="time"
+                  value={newShift.timeend}
+                  onChange={(e) => setNewShift({ ...newShift, timeend: e.target.value })}
+                  className="form-input"
+                />
+              </div>
+              <button onClick={handleAddShift} className="form-button">Add Shift</button>
             </div>
           </div>
 
-          {/* Add a New Shift Form */}
-          <div className="shift-form">
-            <h3 className="form-title">Add a New Shift</h3>
-            <input
-              type="date"
-              value={newShift.shiftdate}
-              onChange={(e) => setNewShift({ ...newShift, shiftdate: e.target.value })}
-              className="form-input"
-            />
-            <div className="time-inputs">
-              <input
-                type="time"
-                value={newShift.timestart}
-                onChange={(e) => setNewShift({ ...newShift, timestart: e.target.value })}
-                className="form-input"
-              />
-              <input
-                type="time"
-                value={newShift.timeend}
-                onChange={(e) => setNewShift({ ...newShift, timeend: e.target.value })}
-                className="form-input"
-              />
+          {/* Edit Shift Form */}
+          {editingShift && (
+            <div className="edit-shift-form">
+              <h3 className="form-title">Edit Shift</h3>
+              <div className="time-inputs">
+                <input
+                  type="time"
+                  defaultValue={editingShift.timestart}
+                  onChange={(e) => setNewShift({ ...newShift, timestart: e.target.value })}
+                  className="form-input"
+                />
+                <input
+                  type="time"
+                  defaultValue={editingShift.timeend}
+                  onChange={(e) => setNewShift({ ...newShift, timeend: e.target.value })}
+                  className="form-input"
+                />
+              </div>
+              <button onClick={handleEditShift} className="form-button save">Save Changes</button>
+              <button onClick={() => handleChangeShiftStatus("Approved")} className="form-button approve">Approve Shift</button>
+              <button onClick={() => handleChangeShiftStatus("Rejected")} className="form-button reject">Reject Shift</button>
             </div>
-            <button onClick={handleAddShift} className="form-button">Add Shift</button>
-          </div>
+          )}
         </div>
-
-        {/* Edit Shift Form */}
-        {editingShift && (
-          <div className="edit-shift-form">
-            <h3 className="form-title">Edit Shift</h3>
-            <div className="time-inputs">
-              <input
-                type="time"
-                defaultValue={editingShift.timestart}
-                onChange={(e) => setNewShift({ ...newShift, timestart: e.target.value })}
-                className="form-input"
-              />
-              <input
-                type="time"
-                defaultValue={editingShift.timeend}
-                onChange={(e) => setNewShift({ ...newShift, timeend: e.target.value })}
-                className="form-input"
-              />
-            </div>
-            <button onClick={handleEditShift} className="form-button save">Save Changes</button>
-            <button onClick={() => handleChangeShiftStatus("Approved")} className="form-button approve">Approve Shift</button>
-            <button onClick={() => handleChangeShiftStatus("Rejected")} className="form-button reject">Reject Shift</button>
-          </div>
-        )}
       </div>
     </div>
   );

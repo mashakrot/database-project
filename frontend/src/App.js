@@ -4,6 +4,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Reservations from "./pages/Reservations";
 import Inventory from "./pages/Inventory";
+import UserManagement from "./pages/UserManagement";
 import StaffSchedules from "./pages/CalendarSchedule";
 
 export default function App() {
@@ -16,6 +17,7 @@ export default function App() {
         <Route path="/dashboard" element={user ? <Dashboard user={user} /> : <Navigate to="/" />} />
         <Route path="/reservations" element={<Reservations />} />
         <Route path="/inventory" element={<Inventory />} />
+        <Route path="/users" element={<UserManagement />} />
         <Route path="/schedules" element={<StaffSchedules />} />
       </Routes>
     </Router>

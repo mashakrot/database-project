@@ -1,9 +1,12 @@
 .container {
   display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   min-height: 100vh;
   background-color: white;
   color: black;
 }
+
 
 .content {
   display: flex;
@@ -14,6 +17,7 @@
 
 .calendar-container {
   flex-grow: 1;
+  min-width: 350px;
 }
 
 .calendar-title {
@@ -91,11 +95,6 @@
   outline: none;
   border-color: #6b7280;
   box-shadow: 0 0 0 1px #6b7280;
-}
-
-.time-inputs {
-  display: flex;
-  gap: 1rem;
 }
 
 .form-button {
@@ -193,11 +192,6 @@
   box-shadow: 0 0 0 1px #6b7280;
 }
 
-.time-inputs {
-  display: flex;
-  gap: 1rem;
-}
-
 .form-button {
   width: 100%;
   padding: 0.75rem;
@@ -247,14 +241,24 @@
   background-color: #047857;
 }
 
+.calender {
+  display: block;
+}
+
 .calendar-container {
   margin: 30px;
 }
 
 .react-calendar {
-  width: 100%;
-  margin: auto;
-  min-width: 350px;
+  /* width: 100%; */
+  /* margin: auto; */
+  min-width: 550px;
+}
+
+.time-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 /* TODO: adjust so form would go down when screen size is small  */

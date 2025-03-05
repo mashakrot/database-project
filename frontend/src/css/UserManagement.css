@@ -1,0 +1,58 @@
+.container {
+    width: 80%;
+    margin: auto;
+    text-align: center;
+  }
+  
+  h2 {
+    margin-bottom: 20px;
+  }
+  
+  .form-container {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .form-container input, .form-container select {
+    padding: 8px;
+    border: 1px solid #ddd;
+  }
+  
+  button {
+    padding: 8px 12px;
+    background: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+  }
+  
+  button:hover {
+    background: #0056b3;
+  }
+  
+  .user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .user-table th, .user-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+  }
+  
+  .user-table th {
+    background: #f4f4f4;
+  }
+  
+  .delete-btn {
+    background: red;
+    padding: 5px 10px;
+  }
+  
+  .delete-btn:hover {
+    background: darkred;
+  }
+  

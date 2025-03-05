@@ -8,14 +8,6 @@ export default function Sidebar() {
       <ul className="space-y-2">
         <li>
           <Link
-            to="/dashboard"
-            className="block py-3 px-4 rounded-md transition bg-gray-900 hover:bg-gray-700"
-          >
-            Dashboard
-          </Link>
-        </li>
-        <li>
-          <Link
             to="/reservations"
             className="block py-3 px-4 rounded-md transition bg-gray-900 hover:bg-gray-700"
           >
@@ -36,6 +28,22 @@ export default function Sidebar() {
             className="block py-3 px-4 rounded-md transition bg-gray-900 hover:bg-gray-700"
           >
             Schedules
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/users"
+            className="block py-3 px-4 rounded-md transition bg-gray-900 hover:bg-gray-700"
+          >
+            Users Management
+          </Link>
+        </li>
+        <li>
+          <Link
+            to="/dashboard"
+            className="block py-3 px-4 rounded-md transition bg-gray-900 hover:bg-gray-700"
+          >
+            Log out
           </Link>
         </li>
       </ul>

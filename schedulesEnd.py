@@ -1,17 +1,19 @@
 from flask import Flask, jsonify, request
-import psycopg2 
+import psycopg2
 from flask_cors import CORS
 from datetime import time
+from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
 
+# Database connection
 def connect_db():
     try:
         conn = psycopg2.connect(
-            dbname="restaurant_schedule",
-            user="your_user",
-            password="your_password",
+            dbname="restaurant_db",
+            user="postgres",
+            password="hello1234",
             host="localhost",
             port="5432"
         )
@@ -27,19 +29,24 @@ def get_schedules():
         return None
     
     cur = conn.cursor()
-    cur.execute("SELECT * FROM schedules")
-    schedules = cur.fetchall() 
     
+    # Query to fetch all schedules
+    query = "SELECT scheduleid, userid, shiftdate, timestart, timeend, approvalstatus FROM schedules"
+    cur.execute(query)
+    
+    schedules = cur.fetchall()
+
     conn.close()
-    
+
     schedules_list = []
     for schedule in schedules:
         schedules_list.append({
             "scheduleid": schedule[0],
             "userid": schedule[1],
-            "shiftdate": schedule[2],
-            "timeslot": schedule[3].strftime('%H:%M:%S') if isinstance(schedule[3], time) else schedule[3],
-            "approvalstatus": schedule[4]
+            "shiftdate": schedule[2].strftime('%Y-%m-%d') if isinstance(schedule[2], datetime) else schedule[2],
+            "timestart": schedule[3].strftime('%H:%M:%S') if isinstance(schedule[3], time) else schedule[3],
+            "timeend": schedule[4].strftime('%H:%M:%S') if isinstance(schedule[4], time) else schedule[4],
+            "approvalstatus": schedule[5]
         })
     
     return schedules_list
@@ -47,6 +54,13 @@ def get_schedules():
 
 @app.route('/get_schedules', methods=['POST'])
 def handle_get_schedules():
+    data = request.get_json()
+    filters = {
+        "shiftdate": data.get("shiftdate"),
+        "approvalstatus": data.get("approvalstatus"),
+        "userid": data.get("userid")
+    }
+    
     schedules = get_schedules()
     if schedules:
         return jsonify({"status": "success", "schedules": schedules})
@@ -54,12 +68,10 @@ def handle_get_schedules():
         return jsonify({"status": "error", "message": "No schedules found"}), 404
 
 
-
-# TODO: check if this post routes are working in schedules 
 @app.route('/add_shift', methods=['POST'])
 def add_shift():
     data = request.get_json()
-    
+
     userid = data.get('userid')
     shiftdate = data['shiftdate']
     timestart = data['timestart']
@@ -69,31 +81,26 @@ def add_shift():
     try:
         conn = connect_db()
         cur = conn.cursor()
-        
+
         insert_query = """
         INSERT INTO schedules (userid, shiftdate, timestart, timeend, approvalstatus)
         VALUES (%s, %s, %s, %s, %s)
+        RETURNING scheduleid
         """
-        
+
         cur.execute(insert_query, (userid, shiftdate, timestart, timeend, approvalstatus))
-        
+        schedule_id = cur.fetchone()[0]
+
         conn.commit()
-        
-        if cur.rowcount > 0:
-            response = {"status": "success", "message": "Shift added successfully"}
-        else:
-            response = {"status": "error", "message": "Failed to add shift"}
-        
+
         cur.close()
         conn.close()
-        
-        return jsonify(response)
-    
+
+        return jsonify({"status": "success", "message": "Shift added successfully", "scheduleid": schedule_id})
+
     except Exception as e:
         print(f"Error adding shift: {e}")
         return jsonify({"status": "error", "message": "Error adding shift"})
-
-    
 
 
 @app.route('/edit_shift', methods=['POST'])
@@ -103,77 +110,61 @@ def edit_shift():
     shiftdate = data.get('shiftdate')
     timestart = data['timestart']
     timeend = data['timeend']
-    
+
     try:
         conn = connect_db()
         cur = conn.cursor()
-        
+
         update_query = """
         UPDATE schedules
         SET shiftdate = %s, timestart = %s, timeend = %s
         WHERE scheduleid = %s
         """
         cur.execute(update_query, (shiftdate, timestart, timeend, scheduleid))
-        
+
         conn.commit()
-        
+
         if cur.rowcount > 0:
             response = {"status": "success", "message": "Shift updated successfully"}
         else:
             response = {"status": "error", "message": "Shift not found"}
-        
+
         cur.close()
         conn.close()
-        
+
         return jsonify(response)
 
     except Exception as e:
         print(f"Error updating shift: {e}")
         return jsonify({"status": "error", "message": "Error updating shift"})
-    
-    
-    
-@app.route('/change_shift_status', methods=['POST'])
-def change_shift_status():
-    data = request.get_json()
-    
-    scheduleid = data.get('scheduleid')
-    approvalstatus = data.get('approvalstatus') 
-    userid = data.get('userid')
 
-    try:
-        conn = connect_db()
-        cur = conn.cursor()
-        
-        cur.execute("SELECT author FROM users WHERE userid = %s", (userid,))
-        user = cur.fetchone()
-        
-        if user and user[0] == 'admin': 
-            update_query = """
-            UPDATE schedules
-            SET approvalstatus = %s
-            WHERE scheduleid = %s
-            """
-            
-            cur.execute(update_query, (approvalstatus, scheduleid))
-            
-            conn.commit()
-            
-            if cur.rowcount > 0:
-                response = {"status": "success", "message": f"Shift status updated to {approvalstatus}"}
-            else:
-                response = {"status": "error", "message": "Shift not found"}
-        else:
-            response = {"status": "error", "message": "User is not authorized to change the shift status"}
 
-        cur.close()
-        conn.close()
+@app.route('/get_schedules', methods=['GET'])
+def get_schedules():
+    conn = connect_db()
+    if not conn:
+        return jsonify({"status": "error", "message": "Database connection failed"}), 500
 
-        return jsonify(response)
+    cur = conn.cursor()
+    query = "SELECT scheduleid, userid, shiftdate, timestart, timeend, approvalstatus FROM schedules"
+    cur.execute(query)
+    schedules = cur.fetchall()
 
-    except Exception as e:
-        print(f"Error changing shift status: {e}")
-        return jsonify({"status": "error", "message": "Error changing shift status"})
+    conn.close()
+
+    schedules_list = []
+    for schedule in schedules:
+        schedules_list.append({
+            "scheduleid": schedule[0],
+            "userid": schedule[1],
+            "shiftdate": schedule[2].strftime('%Y-%m-%d') if isinstance(schedule[2], datetime) else schedule[2],
+            "timestart": schedule[3].strftime('%H:%M:%S') if isinstance(schedule[3], time) else schedule[3],
+            "timeend": schedule[4].strftime('%H:%M:%S') if isinstance(schedule[4], time) else schedule[4],
+            "approvalstatus": schedule[5]
+        })
+    
+    return jsonify({"status": "success", "schedules": schedules_list})
+
 
 
 if __name__ == '__main__':
