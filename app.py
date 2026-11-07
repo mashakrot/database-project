@@ -2,6 +2,7 @@ from flask import Flask, jsonify, request
 import psycopg2
 from flask_cors import CORS
 from datetime import datetime, time
+from werkzeug.security import check_password_hash, generate_password_hash
 
 app = Flask(__name__)
 CORS(app)
@@ -118,36 +119,37 @@ def update_inventory():
     finally:
         conn.close()
 
-# login 
-# TODO:  adjust frontend
-
 def login(email, password):
     conn = connect_db()
     if not conn:
-        return None
+        raise RuntimeError("Database connection failed")
     
     cur = conn.cursor()
-    cur.execute("SELECT userid, name, password FROM users WHERE email = %s", (email,))
+    cur.execute("SELECT userid, name, password_hash FROM users WHERE email = %s", (email,))
     db_user = cur.fetchone()
     
     cur.close()
     conn.close()
     
-    if not db_user or db_user[2] != password: 
-        return None  
+    if not db_user or not db_user[2] or not check_password_hash(db_user[2], password):
+        return None
 
     return {"userid": db_user[0], "name": db_user[1]}  
 
 @app.route('/login', methods=['POST'])
 def handle_login():
-    data = request.json  
+    data = request.get_json(silent=True) or {}
     email = data.get("email")
     password = data.get("password")
 
     if not email or not password:
         return jsonify({"status": "error", "message": "Email and password required"}), 400
 
-    user = login(email, password)  
+    try:
+        user = login(email, password)
+    except (RuntimeError, psycopg2.Error) as e:
+        print(f"Login error: {e}")
+        return jsonify({"status": "error", "message": "Login service unavailable"}), 503
 
     if user:
         response = jsonify({"status": "success", "user": user})
@@ -361,23 +363,34 @@ def get_users():
 # Add a user
 @app.route('/users', methods=['POST'])
 def add_user():
-    data = request.get_json()
+    data = request.get_json(silent=True) or {}
     
     name = data.get('name')
     email = data.get('email')
     telephonenumber = data.get('telephonenumber')
     author = data.get('author', 'Staff') 
+    password = data.get('password')
+
+    if not name or not email or not password:
+        return jsonify({
+            "status": "error",
+            "message": "Name, email, and password are required"
+        }), 400
 
     try:
         conn = connect_db()
+        if not conn:
+            return jsonify({"status": "error", "message": "Database connection failed"}), 503
         cur = conn.cursor()
 
         insert_query = """
-        INSERT INTO users (name, email, telephonenumber, author)
-        VALUES (%s, %s, %s, %s)
+        INSERT INTO users (name, email, telephonenumber, author, password_hash)
+        VALUES (%s, %s, %s, %s, %s)
         RETURNING userid
         """
-        cur.execute(insert_query, (name, email, telephonenumber, author))
+        cur.execute(insert_query, (
+            name, email, telephonenumber, author, generate_password_hash(password)
+        ))
         user_id = cur.fetchone()[0]
 
         conn.commit()
@@ -386,9 +399,12 @@ def add_user():
 
         return jsonify({"status": "success", "message": "User added successfully", "userid": user_id})
 
-    except Exception as e:
+    except psycopg2.Error as e:
         print(f"Error adding user: {e}")
-        return jsonify({"status": "error", "message": "Error adding user"})
+        if conn:
+            conn.rollback()
+            conn.close()
+        return jsonify({"status": "error", "message": "Error adding user"}), 500
 
 # Delete a user
 @app.route('/users/<int:user_id>', methods=['DELETE'])

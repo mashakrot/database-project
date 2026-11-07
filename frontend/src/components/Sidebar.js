@@ -39,12 +39,13 @@ export default function Sidebar() {
           </Link>
         </li>
         <li>
-          <Link
-            to="/login"
-            className="block py-3 px-4 rounded-md transition bg-gray-900 hover:bg-gray-700"
+          <button
+            type="button"
+            className="block w-full text-left py-3 px-4 rounded-md transition bg-gray-900 hover:bg-gray-700"
+            onClick={() => window.location.assign("/")}
           >
             Log out
-          </Link>
+          </button>
         </li>
       </ul>
     </div>

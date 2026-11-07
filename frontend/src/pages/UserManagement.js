@@ -3,7 +3,14 @@ import Sidebar from "../components/Sidebar";
 
 const UserManagement = () => {
   const [users, setUsers] = useState([]);
-  const [newUser, setNewUser] = useState({ name: "", email: "", telephonenumber: "", author: "Staff" });
+  const [newUser, setNewUser] = useState({
+    name: "",
+    email: "",
+    telephonenumber: "",
+    author: "Staff",
+    password: ""
+  });
+  const [error, setError] = useState("");
 
   // Fetch all users
   useEffect(() => {
@@ -20,6 +27,7 @@ const UserManagement = () => {
 
 
   const handleAddUser = () => {
+    setError("");
     fetch("http://localhost:5000/users", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -29,10 +37,18 @@ const UserManagement = () => {
       .then((data) => {
         if (data.status === "success") {
           setUsers([...users, { userid: data.userid, ...newUser }]); 
-          setNewUser({ name: "", email: "", telephonenumber: "", author: "Staff" });
+          setNewUser({
+            name: "",
+            email: "",
+            telephonenumber: "",
+            author: "Staff",
+            password: ""
+          });
+        } else {
+          setError(data.message || "Error adding user");
         }
       })
-      .catch((error) => console.error("Error adding user:", error));
+      .catch(() => setError("Server error, please try again later."));
   };
 
   // Delete user
@@ -52,12 +68,14 @@ const UserManagement = () => {
       <Sidebar />
       <div className="flex-1 ml-60 p-5">
         <h2>User Management</h2>
+        {error && <p className="text-red-500">{error}</p>}
 
         {/* Add User Form */}
         <div className="form-container">
           <input type="text" name="name" placeholder="Name" value={newUser.name} onChange={handleChange} />
           <input type="email" name="email" placeholder="Email" value={newUser.email} onChange={handleChange} />
           <input type="text" name="telephonenumber" placeholder="Phone" value={newUser.telephonenumber} onChange={handleChange} />
+          <input type="password" name="password" placeholder="Password" value={newUser.password} onChange={handleChange} />
           <select name="author" value={newUser.author} onChange={handleChange}>
             <option value="Staff">Staff</option>
             <option value="Admin">Admin</option>

@@ -24,8 +24,6 @@ export default function Login({ setUser }) {
       const data = await response.json();
 
       if (response.ok) {
-        console.log("Login successful:", data);
-        localStorage.setItem("token", data.access_token);
         setUser(data.user); 
         navigate("/dashboard");
       } else {
