@@ -9,8 +9,9 @@ A restaurant management system made with **React**, **Flask**, and **PostgreSQL*
 1. [Tech Stack](https://github.com/mashakrot/database-project#tech-stack)
 2. [Features](https://github.com/mashakrot/database-project#features)
 3. [Project Structure](https://github.com/mashakrot/database-project#project-structure)
-4. [Getting Started](https://github.com/mashakrot/database-project#getting-started)
-5. [API Endpoints](https://github.com/mashakrot/database-project#api-endpoints)
+4. [Database Structure](https://github.com/mashakrot/database-project#database-structure)
+5. [Getting Started](https://github.com/mashakrot/database-project#getting-started)
+6. [API Endpoints](https://github.com/mashakrot/database-project#api-endpoints)
 
 ## `Tech Stack`
 [](https://github.com/mashakrot/database-project#tech-stack)
@@ -54,6 +55,21 @@ A restaurant management system made with **React**, **Flask**, and **PostgreSQL*
         ├── components/            # Shared navigation components
         └── pages/                 # Login, dashboard, inventory, reservations, users, schedules
 ```
+
+## `Database Structure`
+[](https://github.com/mashakrot/database-project#database-structure)
+
+The application uses **PostgreSQL** with a database named `restaurant_db`. The schema is in [restaurant_db.sql](./restaurant_db.sql) and is organized around restaurant operations:
+
+- `users` stores administrator and staff accounts
+- `roles` and `staffassignments` define staff roles and assignments
+- `schedules` stores employee shifts and their approval status
+- `reservations` stores customer bookings and reservation statuses
+- `tables` stores restaurant table capacities
+- `inventory` stores stock quantities and reorder levels
+- `suppliers` stores supplier contact information linked to inventory items
+
+The main relationships connect inventory items to their suppliers, reservations to restaurant tables, and staff schedules and assignments to users. 
 
 ## `Getting Started`
 [](https://github.com/mashakrot/database-project#getting-started)
