@@ -6,6 +6,8 @@
 
 A restaurant management system made with **React**, **Flask**, and **PostgreSQL**. It provides a dashboard for managing restaurant reservations, inventory, suppliers, users and staff schedules. This project was made for university Database Systems course. 
 
+Demo login: demo@example.com, Demo1234!
+
 1. [Tech Stack](https://github.com/mashakrot/database-project#tech-stack)
 2. [Features](https://github.com/mashakrot/database-project#features)
 3. [Project Structure](https://github.com/mashakrot/database-project#project-structure)
